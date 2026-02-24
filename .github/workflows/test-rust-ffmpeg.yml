@@ -1,0 +1,30 @@
+name: Test rust-ffmpeg skill
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "skills/rust-ffmpeg/**"
+      - "tests/rust-ffmpeg/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - "skills/rust-ffmpeg/**"
+      - "tests/rust-ffmpeg/**"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements-test.txt
+
+      - name: Run rust-ffmpeg tests
+        run: python -m pytest tests/rust-ffmpeg/ -v
